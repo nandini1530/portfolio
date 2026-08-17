@@ -99,7 +99,11 @@
     }
     .hero h1 { font-size: clamp(2.6rem, 6.5vw, 4.6rem); font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 10px; }
     .hero h1 .last { color: var(--accent); }
-    .tagline { font-family: "JetBrains Mono", monospace; color: var(--accent-2); font-size: clamp(0.95rem, 2vw, 1.15rem); letter-spacing: 3px; margin-bottom: 16px; }
+    .tagline { font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: clamp(0.95rem, 2vw, 1.15rem); letter-spacing: 3px; margin-bottom: 16px; min-height: 1.4em; }
+    .tagline .tw-text { color: var(--accent); }
+    .tagline .tw-cursor { display: inline-block; width: 2px; height: 1.05em; margin-left: 2px; vertical-align: text-bottom; background: var(--accent); animation: blink 0.7s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .tagline .tw-cursor { animation: none; } }
     .role { color: var(--muted); font-size: clamp(0.95rem, 2vw, 1.1rem); font-weight: 500; margin-bottom: 30px; }
     .role b { color: var(--text); font-weight: 600; }
 
@@ -236,7 +240,7 @@
 
     <div class="avatar" role="img" aria-label="Nandini Pandey"></div>
     <h1>Nandini <span class="last">Pandey</span></h1>
-    <div class="tagline">PROGRAM MANAGER</div>
+    <div class="tagline"><span class="tw-text" id="tw"></span><span class="tw-cursor" aria-hidden="true"></span></div>
     <div class="role">Program Manager — <b>IN Payments</b> · Amazon · India</div>
 
     <div class="stat-bar">
@@ -510,6 +514,28 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Typewriter effect for hero tagline (moving orange cursor)
+    (function () {
+      var el = document.getElementById("tw");
+      if (!el) return;
+      var phrases = ["PROGRAM MANAGER", "IN PAYMENTS", "AMAZON", "7+ YEARS DELIVERING"];
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) { el.textContent = phrases[0]; return; }
+      var pi = 0, ci = 0, deleting = false;
+      function tick() {
+        var full = phrases[pi];
+        el.textContent = full.substring(0, ci);
+        if (!deleting) {
+          if (ci < full.length) { ci++; setTimeout(tick, 90); }
+          else { deleting = true; setTimeout(tick, 1600); }
+        } else {
+          if (ci > 0) { ci--; setTimeout(tick, 45); }
+          else { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(tick, 350); }
+        }
+      }
+      tick();
+    })();
 
     // Leadership Principle flip toggles
     document.querySelectorAll(".lp-toggle").forEach(function (btn) {
