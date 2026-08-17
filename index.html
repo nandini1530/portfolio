@@ -182,6 +182,11 @@
     .skill-groups h3 { font-size: 1rem; margin-bottom: 14px; }
     .chips { display: flex; flex-wrap: wrap; gap: 10px; }
     .chip { background: var(--bg-soft); border: 1px solid var(--border); padding: 8px 14px; border-radius: 999px; font-size: 0.88rem; }
+    .skill-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+    .skill-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px 12px; text-align: center; transition: transform 0.18s, border-color 0.2s; box-shadow: var(--shadow); }
+    .skill-card:hover { transform: translateY(-4px); border-color: rgba(255,153,0,0.4); }
+    .skill-card .sk-ico { font-size: 1.7rem; display: block; margin-bottom: 10px; }
+    .skill-card .sk-name { font-size: 0.86rem; font-weight: 600; color: var(--text); line-height: 1.3; }
 
     /* Timeline */
     .timeline { position: relative; padding-left: 30px; max-width: 900px; margin: 0 auto; }
@@ -427,35 +432,27 @@
       <div class="eyebrow">Skills &amp; Expertise</div>
       <h2 class="sec-title">What I bring to the table</h2>
       <p class="sec-sub">Capabilities I bring to every program.</p>
-      <div class="skill-groups">
-        <div>
-          <h3>Program &amp; Leadership</h3>
-          <div class="chips">
-            <span class="chip">Program Management</span><span class="chip">Business Transformation</span>
-            <span class="chip">Governance</span><span class="chip">Stakeholder Management</span>
-            <span class="chip">Executive Reporting</span><span class="chip">Change Management</span>
-            <span class="chip">Risk Management</span><span class="chip">Cross-Functional Leadership</span>
-          </div>
-        </div>
-        <div>
-          <h3>Domain &amp; Functional</h3>
-          <div class="chips">
-            <span class="chip">Payments Operations</span><span class="chip">Workforce Planning</span>
-            <span class="chip">Reconciliation</span><span class="chip">Capacity Planning</span>
-            <span class="chip">Supply Chain</span><span class="chip">Quick Commerce</span>
-            <span class="chip">Vendor Governance</span><span class="chip">Peak Readiness</span>
-          </div>
-        </div>
-        <div>
-          <h3>Tools &amp; Technology</h3>
-          <div class="chips">
-            <span class="chip">Power BI</span><span class="chip">Tableau</span>
-            <span class="chip">SQL / Python</span><span class="chip">AWS (ECS/S3)</span>
-            <span class="chip">JIRA</span><span class="chip">Asana</span>
-            <span class="chip">Advanced Excel</span><span class="chip">GenAI Workflows</span>
-            <span class="chip">Prompt Engineering</span>
-          </div>
-        </div>
+      <div class="skill-cards">
+        <div class="skill-card"><span class="sk-ico">📋</span><span class="sk-name">Program Management</span></div>
+        <div class="skill-card"><span class="sk-ico">💳</span><span class="sk-name">Payments Operations</span></div>
+        <div class="skill-card"><span class="sk-ico">👥</span><span class="sk-name">Workforce Planning</span></div>
+        <div class="skill-card"><span class="sk-ico">🔄</span><span class="sk-name">Business Transformation</span></div>
+        <div class="skill-card"><span class="sk-ico">🎯</span><span class="sk-name">Capacity Planning</span></div>
+        <div class="skill-card"><span class="sk-ico">🧾</span><span class="sk-name">Reconciliation</span></div>
+        <div class="skill-card"><span class="sk-ico">🤝</span><span class="sk-name">Stakeholder Management</span></div>
+        <div class="skill-card"><span class="sk-ico">⚖️</span><span class="sk-name">Governance</span></div>
+        <div class="skill-card"><span class="sk-ico">📊</span><span class="sk-name">Executive Reporting</span></div>
+        <div class="skill-card"><span class="sk-ico">🛡️</span><span class="sk-name">Risk Management</span></div>
+        <div class="skill-card"><span class="sk-ico">🔧</span><span class="sk-name">Change Management</span></div>
+        <div class="skill-card"><span class="sk-ico">🚚</span><span class="sk-name">Supply Chain &amp; Logistics</span></div>
+        <div class="skill-card"><span class="sk-ico">🚀</span><span class="sk-name">Peak Readiness</span></div>
+        <div class="skill-card"><span class="sk-ico">📑</span><span class="sk-name">Vendor Governance</span></div>
+        <div class="skill-card"><span class="sk-ico">📈</span><span class="sk-name">Power BI &amp; Tableau</span></div>
+        <div class="skill-card"><span class="sk-ico">💻</span><span class="sk-name">SQL / Python</span></div>
+        <div class="skill-card"><span class="sk-ico">☁️</span><span class="sk-name">AWS (ECS/S3)</span></div>
+        <div class="skill-card"><span class="sk-ico">🤖</span><span class="sk-name">GenAI Workflows</span></div>
+        <div class="skill-card"><span class="sk-ico">✨</span><span class="sk-name">Prompt Engineering</span></div>
+        <div class="skill-card"><span class="sk-ico">⚙️</span><span class="sk-name">Automation</span></div>
       </div>
     </div>
   </section>
