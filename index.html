@@ -99,7 +99,7 @@
     }
     .hero h1 { font-size: clamp(2.6rem, 6.5vw, 4.6rem); font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 10px; }
     .hero h1 .last { color: var(--accent); }
-    .tagline { font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: clamp(0.95rem, 2vw, 1.15rem); letter-spacing: 3px; margin-bottom: 16px; min-height: 1.4em; }
+    .tagline { font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: clamp(0.95rem, 2vw, 1.15rem); letter-spacing: 0.5px; margin-bottom: 16px; min-height: 1.4em; padding: 0 12px; }
     .tagline .tw-text { color: var(--accent); }
     .tagline .tw-cursor { display: inline-block; width: 2px; height: 1.05em; margin-left: 2px; vertical-align: text-bottom; background: var(--accent); animation: blink 0.7s step-end infinite; }
     @keyframes blink { 50% { opacity: 0; } }
@@ -519,7 +519,7 @@
     (function () {
       var el = document.getElementById("tw");
       if (!el) return;
-      var phrases = ["PROGRAM MANAGER", "IN PAYMENTS", "AMAZON", "7+ YEARS DELIVERING"];
+      var phrases = ["Complex Operations or Programs?", "I Turn Them into Scalable, Standardized Systems."];
       var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduce) { el.textContent = phrases[0]; return; }
       var pi = 0, ci = 0, deleting = false;
