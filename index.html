@@ -48,19 +48,50 @@
       padding: 60px 24px 40px;
       overflow: hidden;
     }
-    /* Looping YouTube video background */
+    /* Animated CSS background (no external files, works on any network) */
     .hero-video {
       position: absolute; inset: 0; z-index: 0; overflow: hidden;
-      /* Fallback: show the video's thumbnail if autoplay is blocked or video hasn't loaded */
-      background: #0b0e13 url("https://i.ytimg.com/vi/0XYBbiDWWLw/maxresdefault.jpg") center/cover no-repeat;
+      background:
+        radial-gradient(1200px 700px at 15% 20%, rgba(255,153,0,0.05), transparent 60%),
+        linear-gradient(135deg, #10151f 0%, #0b0e13 60%, #0b0e13 100%);
       pointer-events: none;
     }
-    .hero-video iframe, .hero-video #ytbg {
-      position: absolute; top: 50%; left: 50%;
-      width: 100vw; height: 56.25vw;      /* 16:9 based on width */
-      min-width: 177.78vh; min-height: 100vh; /* 16:9 based on height, so it always covers */
-      transform: translate(-50%, -50%);
-      border: 0; pointer-events: none;
+    /* Slow-moving light blooms */
+    .hero-video .bloom {
+      position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.55; will-change: transform;
+    }
+    .hero-video .bloom.b1 {
+      width: 60vw; height: 60vw; left: -12vw; top: -18vw;
+      background: radial-gradient(circle, rgba(255,153,0,0.55), rgba(255,153,0,0) 62%);
+      animation: drift1 20s ease-in-out infinite;
+    }
+    .hero-video .bloom.b2 {
+      width: 52vw; height: 52vw; right: -14vw; bottom: -20vw;
+      background: radial-gradient(circle, rgba(91,140,255,0.40), rgba(91,140,255,0) 62%);
+      animation: drift2 26s ease-in-out infinite;
+    }
+    .hero-video .bloom.b3 {
+      width: 40vw; height: 40vw; left: 45vw; top: 30vh;
+      background: radial-gradient(circle, rgba(79,209,197,0.28), rgba(79,209,197,0) 62%);
+      animation: drift3 32s ease-in-out infinite;
+    }
+    /* Subtle moving grid for a tech feel */
+    .hero-video .grid {
+      position: absolute; inset: -2px;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 75%);
+      -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 75%);
+      animation: gridpan 24s linear infinite;
+    }
+    @keyframes drift1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(8vw, 6vh) scale(1.12); } }
+    @keyframes drift2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-7vw, -5vh) scale(1.15); } }
+    @keyframes drift3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-6vw, 7vh) scale(1.1); } }
+    @keyframes gridpan { 0% { background-position: 0 0, 0 0; } 100% { background-position: 46px 46px, 46px 46px; } }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-video .bloom, .hero-video .grid { animation: none; }
     }
     /* Dark gradient overlay so text stays readable over the video */
     .hero::before {
@@ -209,7 +240,12 @@
 <body>
   <!-- ============ HERO / FRONT PAGE ============ -->
   <header class="hero">
-    <div class="hero-video"><div id="ytbg"></div></div>
+    <div class="hero-video" aria-hidden="true">
+      <span class="bloom b1"></span>
+      <span class="bloom b2"></span>
+      <span class="bloom b3"></span>
+      <span class="grid"></span>
+    </div>
     <div class="brandmark">amazon<span>.</span></div>
 
     <div class="avatar" role="img" aria-label="Nandini Pandey"></div>
@@ -446,31 +482,6 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-
-    // --- Background video via YouTube IFrame Player API (reliable muted autoplay + loop) ---
-    (function () {
-      var VIDEO_ID = "0XYBbiDWWLw";
-      var tag = document.createElement("script");
-      tag.src = "https://www.youtube.com/iframe_api";
-      document.head.appendChild(tag);
-
-      window.onYouTubeIframeAPIReady = function () {
-        new YT.Player("ytbg", {
-          videoId: VIDEO_ID,
-          playerVars: {
-            autoplay: 1, mute: 1, controls: 0, loop: 1, playlist: VIDEO_ID,
-            playsinline: 1, rel: 0, modestbranding: 1, disablekb: 1, fs: 0,
-            iv_load_policy: 3, cc_load_policy: 0
-          },
-          events: {
-            onReady: function (e) { e.target.mute(); e.target.playVideo(); },
-            onStateChange: function (e) {
-              if (e.data === YT.PlayerState.ENDED) { e.target.playVideo(); }
-            }
-          }
-        });
-      };
-    })();
   </script>
 </body>
 </html>
