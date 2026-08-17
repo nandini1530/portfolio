@@ -58,21 +58,21 @@
     }
     /* Slow-moving light blooms */
     .hero-video .bloom {
-      position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.55; will-change: transform;
+      position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.9; will-change: transform;
     }
     .hero-video .bloom.b1 {
-      width: 60vw; height: 60vw; left: -12vw; top: -18vw;
-      background: radial-gradient(circle, rgba(255,153,0,0.55), rgba(255,153,0,0) 62%);
+      width: 55vw; height: 55vw; left: -6vw; top: -10vw;
+      background: radial-gradient(circle, rgba(255,153,0,0.85), rgba(255,153,0,0) 65%);
       animation: drift1 20s ease-in-out infinite;
     }
     .hero-video .bloom.b2 {
-      width: 52vw; height: 52vw; right: -14vw; bottom: -20vw;
-      background: radial-gradient(circle, rgba(91,140,255,0.40), rgba(91,140,255,0) 62%);
+      width: 50vw; height: 50vw; right: -8vw; bottom: -12vw;
+      background: radial-gradient(circle, rgba(91,140,255,0.70), rgba(91,140,255,0) 65%);
       animation: drift2 26s ease-in-out infinite;
     }
     .hero-video .bloom.b3 {
-      width: 40vw; height: 40vw; left: 45vw; top: 30vh;
-      background: radial-gradient(circle, rgba(79,209,197,0.28), rgba(79,209,197,0) 62%);
+      width: 42vw; height: 42vw; left: 40vw; top: 28vh;
+      background: radial-gradient(circle, rgba(79,209,197,0.55), rgba(79,209,197,0) 65%);
       animation: drift3 32s ease-in-out infinite;
     }
     /* Subtle moving grid for a tech feel */
@@ -93,13 +93,13 @@
     @media (prefers-reduced-motion: reduce) {
       .hero-video .bloom, .hero-video .grid { animation: none; }
     }
-    /* Dark gradient overlay so text stays readable over the video */
+    /* Light vignette so text stays readable while the animated blooms show through */
     .hero::before {
       content: "";
       position: absolute; inset: 0; z-index: 1;
       background:
-        linear-gradient(180deg, rgba(11,14,19,0.50) 0%, rgba(11,14,19,0.70) 55%, rgba(11,14,19,0.94) 100%),
-        radial-gradient(1000px 500px at 20% 20%, rgba(255,153,0,0.10), transparent 60%);
+        radial-gradient(120% 90% at 50% 40%, transparent 40%, rgba(11,14,19,0.45) 100%),
+        linear-gradient(180deg, rgba(11,14,19,0.10) 0%, rgba(11,14,19,0.18) 55%, rgba(11,14,19,0.55) 100%);
       pointer-events: none;
     }
     .hero > * { position: relative; z-index: 2; }
