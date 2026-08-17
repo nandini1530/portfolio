@@ -223,7 +223,9 @@
     .modal { background: var(--card); border: 1px solid var(--border); border-radius: 18px; max-width: 540px; width: 100%; padding: 28px 28px 24px; box-shadow: var(--shadow); position: relative; animation: modalIn 0.25s ease; }
     @keyframes modalIn { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
     .modal .m-eyebrow { color: var(--accent); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; font-size: 0.72rem; margin-bottom: 6px; }
-    .modal h3 { font-size: 1.4rem; margin-bottom: 16px; }
+    .modal h3 { font-size: 1.4rem; margin-bottom: 10px; }
+    .modal .m-desc { color: var(--muted); font-size: 0.92rem; line-height: 1.55; margin-bottom: 16px; }
+    .modal .m-desc:empty { display: none; }
     .modal ul { list-style: none; padding: 0; margin: 0; }
     .modal ul li { display: flex; gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 0.92rem; }
     .modal ul li:last-child { border-bottom: 0; }
@@ -288,7 +290,7 @@
 
     <div class="brand-cards">
       <div class="brand-card" data-domain="payments" role="button" tabindex="0"><div class="bc-title">amazon <em>pay</em></div><div class="bc-sub">PAYMENTS PROGRAMS</div><span class="bc-hint">CLICK TO EXPLORE →</span></div>
-      <div class="brand-card" data-domain="transformation" role="button" tabindex="0"><div class="bc-title">business <em>x</em></div><div class="bc-sub">TRANSFORMATION</div><span class="bc-hint">CLICK TO EXPLORE →</span></div>
+      <div class="brand-card" data-domain="workforce" role="button" tabindex="0"><div class="bc-title">workforce <em>uk</em></div><div class="bc-sub">PLANNING &amp; CAPACITY</div><span class="bc-hint">CLICK TO EXPLORE →</span></div>
       <div class="brand-card" data-domain="genai" role="button" tabindex="0"><div class="bc-title">AI <em>+</em></div><div class="bc-sub">GENAI WORKFLOWS</div><span class="bc-hint">CLICK TO EXPLORE →</span></div>
     </div>
 
@@ -555,6 +557,7 @@
       <button class="m-close" id="domainClose" aria-label="Close">&times;</button>
       <div class="m-eyebrow" id="domainEyebrow"></div>
       <h3 id="domainTitle"></h3>
+      <p class="m-desc" id="domainDesc"></p>
       <ul id="domainList"></ul>
     </div>
   </div>
@@ -568,29 +571,34 @@
         payments: {
           eyebrow: "Payments Programs",
           title: "Fresh, Now & DSP Payments",
+          desc: "I lead strategic payment infrastructure and operational excellence programs at Amazon India \u2014 owning the roadmap, reconciliation, reporting, and automation for critical payment flows and partnering across Engineering, Product, Finance, Compliance, Operations, and Analytics.",
           points: [
             ["$15M+", "business value delivered through payments transformation"],
             ["2M+", "daily payment transactions supported"],
             ["↑ 25%", "payment success rate via intelligent routing"],
             ["↓ 75%", "processing turnaround through workflow redesign"],
             ["↓ 40%", "manual effort via automation & exception management"],
+            ["6+ teams", "cross-functional stakeholders aligned"],
             ["Frameworks", "reconciliation, KPI reporting & executive dashboards"]
           ]
         },
-        transformation: {
-          eyebrow: "Business Transformation",
-          title: "Enterprise Transformation @ Deloitte",
+        workforce: {
+          eyebrow: "Workforce Planning \u2014 UK",
+          title: "Workforce UK",
+          desc: "I led workforce and capacity planning for the Amazon UK business \u2014 managing a large frontline team and driving throughput, utilization, and cost efficiency across the network through forecasting, planning models, and process redesign.",
           points: [
-            ["Multi-BU", "strategic transformation across business units"],
-            ["↑ 25%", "resource utilization via planning & forecasting"],
-            ["Governance", "frameworks & KPI architectures for leadership"],
-            ["Dashboards", "executive reporting & decision support"],
-            ["Cross-fn", "HR, Product, Marketing, Technology & Business"]
+            ["5K+", "team members handled across the network"],
+            ["↑ TPH", "throughput & capacity improved"],
+            ["↑ 25%", "workforce utilization via forecasting & planning"],
+            ["↑ Accuracy", "demand forecasting & headcount planning"],
+            ["↓ Cost", "improved cost-to-serve and efficiency"],
+            ["Zero-blocker", "delivery & launch readiness"]
           ]
         },
         genai: {
           eyebrow: "GenAI & Automation",
           title: "AI-Enabled Workflows",
+          desc: "I build AI-enabled automation and GenAI workflows that cut manual effort, speed up reporting, and give leadership real-time visibility \u2014 combining prompt engineering, SQL/Python, and AWS tooling.",
           points: [
             ["↓ 40%", "manual effort through AI-enabled automation"],
             ["~3 days", "saved every month via capacity planning tool"],
@@ -604,6 +612,7 @@
       var overlay = document.getElementById("domainModal");
       var elEyebrow = document.getElementById("domainEyebrow");
       var elTitle = document.getElementById("domainTitle");
+      var elDesc = document.getElementById("domainDesc");
       var elList = document.getElementById("domainList");
       var elClose = document.getElementById("domainClose");
       if (!overlay) return;
@@ -613,6 +622,7 @@
         if (!d) return;
         elEyebrow.textContent = d.eyebrow;
         elTitle.textContent = d.title;
+        elDesc.textContent = d.desc || "";
         elList.innerHTML = "";
         d.points.forEach(function (p) {
           var li = document.createElement("li");
