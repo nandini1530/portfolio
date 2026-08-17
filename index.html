@@ -146,6 +146,10 @@
     .about-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 34px; align-items: start; }
     .about-text p { color: var(--muted); margin-bottom: 16px; }
     .about-text b { color: var(--text); }
+    .about-highlights { display: flex; flex-wrap: wrap; gap: 14px; margin: 22px 0 6px; }
+    .about-highlights > div { flex: 1; min-width: 130px; background: var(--card-2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+    .about-highlights .ah-num { display: block; font-size: 1.7rem; font-weight: 800; line-height: 1.1; background: linear-gradient(135deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .about-highlights .ah-lbl { display: block; font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
     .info-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
     .info-card h3 { font-size: 0.95rem; margin-bottom: 12px; color: var(--accent); letter-spacing: 0.5px; }
     .info-row { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
@@ -290,24 +294,32 @@
       <div class="about-grid">
         <div class="about-text">
           <p>
-            I'm a <b>Program Manager</b> with 7+ years of experience driving complex,
-            cross-functional initiatives end to end. I thrive at the intersection of
-            strategy and execution — setting the roadmap, de-risking delivery, and
-            keeping stakeholders aligned from kickoff to launch.
+            I'm a <b>Program Manager</b> with <b>7+ years of experience</b> spanning both
+            <b>service-based and product-based companies</b>. That mix has shaped how I
+            work — balancing client-driven delivery discipline with product-led thinking
+            about outcomes, scale, and the long-term roadmap.
           </p>
           <p>
-            Today I lead <b>India (IN) Payments</b> programs at Amazon, coordinating
-            across product, engineering, operations, risk, and compliance. I turn
-            ambiguous goals into clear plans, measurable milestones, and dependable
-            outcomes for critical payment flows used across the country.
+            Across those years I've driven complex, cross-functional initiatives end to
+            end — setting the roadmap, de-risking delivery, and keeping product,
+            engineering, operations, risk, and compliance aligned from kickoff to launch.
           </p>
           <p>
-            I care about clarity, momentum, and doing right by both the customer and
-            the team. I believe great programs are built on trust, tight feedback loops,
-            and relentless follow-through.
+            Today I lead <b>India (IN) Payments</b> programs at Amazon, turning ambiguous
+            goals into clear plans, measurable milestones, and dependable outcomes for
+            critical payment flows used across the country.
           </p>
-          <p style="color:var(--faint); font-size:0.85rem;">
-            Tip: this section is a sample — edit the text in index.html to make it fully yours.
+
+          <div class="about-highlights">
+            <div><span class="ah-num">7+</span><span class="ah-lbl">Years of experience</span></div>
+            <div><span class="ah-num">Service + Product</span><span class="ah-lbl">Company backgrounds</span></div>
+            <div><span class="ah-num">99.9%</span><span class="ah-lbl">Payment success rate</span></div>
+            <div><span class="ah-num">25+</span><span class="ah-lbl">Programs delivered</span></div>
+            <div><span class="ah-num">98%</span><span class="ah-lbl">On-time delivery</span></div>
+            <div><span class="ah-num">20+</span><span class="ah-lbl">Teams aligned</span></div>
+          </div>
+          <p style="color:var(--faint); font-size:0.82rem; margin-top:10px;">
+            Note: the numbers above are sample figures — share your real metrics and I'll update them.
           </p>
         </div>
         <div class="info-card">
