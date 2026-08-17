@@ -113,8 +113,8 @@
     .role { color: var(--muted); font-size: clamp(0.95rem, 2vw, 1.1rem); font-weight: 500; margin-bottom: 30px; }
     .role b { color: var(--text); font-weight: 600; }
 
-    .stat-bar { display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; background: rgba(20,25,34,0.7); border: 1px solid var(--border); border-radius: 14px; padding: 12px 6px; backdrop-filter: blur(8px); box-shadow: var(--shadow); margin-bottom: 30px; }
-    .stat-bar .item { padding: 4px 18px; font-size: 0.92rem; color: var(--muted); white-space: nowrap; }
+    .stat-bar { display: inline-flex; flex-wrap: nowrap; align-items: center; justify-content: center; background: rgba(20,25,34,0.7); border: 1px solid var(--border); border-radius: 14px; padding: 10px 4px; backdrop-filter: blur(8px); box-shadow: var(--shadow); margin-bottom: 30px; max-width: 100%; overflow-x: auto; }
+    .stat-bar .item { padding: 4px 12px; font-size: 0.82rem; color: var(--muted); white-space: nowrap; }
     .stat-bar .item b { color: var(--text); font-weight: 700; }
     .stat-bar .item .g { color: var(--green); font-weight: 600; }
     .stat-bar .divider { width: 1px; align-self: stretch; background: var(--border); }
@@ -273,8 +273,6 @@
     <div class="role">Program Manager — <b>Fresh, Now &amp; DSP Payments</b> · Amazon · Hyderabad</div>
 
     <div class="stat-bar">
-      <div class="item"><b>7 Years</b> Experience</div>
-      <div class="divider"></div>
       <div class="item"><b>$15M+</b> <span class="g">Impact</span></div>
       <div class="divider"></div>
       <div class="item"><b>2M+</b> Daily Transactions</div>
