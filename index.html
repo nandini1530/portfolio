@@ -13,10 +13,14 @@
       --bg: #0b0e13;
       --bg-soft: #141922;
       --card: #171d27;
+      --card-2: #1b2230;
       --text: #f2f4f8;
       --muted: #aab3c2;
-      --accent: #ff9900;          /* Amazon orange */
+      --faint: #6b7688;
+      --accent: #ff9900;
       --accent-2: #ffb84d;
+      --blue: #5b8cff;
+      --teal: #4fd1c5;
       --green: #4ade80;
       --border: rgba(255, 255, 255, 0.10);
       --shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
@@ -28,59 +32,44 @@
     html { scroll-behavior: smooth; }
     body {
       font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
+      background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased;
     }
     a { color: inherit; text-decoration: none; }
     .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
 
-    /* ============ HERO ============ */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 60px 24px 40px;
-      overflow: hidden;
+    /* ===== NAV ===== */
+    header.nav {
+      position: sticky; top: 0; z-index: 60;
+      background: rgba(11,14,19,0.72); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
     }
-    /* Animated CSS background (no external files, works on any network) */
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 62px; }
+    .nav-logo { font-weight: 800; letter-spacing: 0.3px; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 22px; }
+    .nav-links a { color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { padding: 8px 16px; border-radius: 999px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #1a1200; font-weight: 700; font-size: 0.85rem; }
+    @media (max-width: 820px) { .nav-links { display: none; } }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative; min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      padding: 60px 24px 40px; overflow: hidden;
+    }
     .hero-video {
       position: absolute; inset: 0; z-index: 0; overflow: hidden;
-      background:
-        radial-gradient(1200px 700px at 15% 20%, rgba(255,153,0,0.05), transparent 60%),
-        linear-gradient(135deg, #10151f 0%, #0b0e13 60%, #0b0e13 100%);
+      background: radial-gradient(1200px 700px at 15% 20%, rgba(255,153,0,0.05), transparent 60%), linear-gradient(135deg, #10151f 0%, #0b0e13 60%, #0b0e13 100%);
       pointer-events: none;
     }
-    /* Slow-moving light blooms */
-    .hero-video .bloom {
-      position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.9; will-change: transform;
-    }
-    .hero-video .bloom.b1 {
-      width: 55vw; height: 55vw; left: -6vw; top: -10vw;
-      background: radial-gradient(circle, rgba(255,153,0,0.85), rgba(255,153,0,0) 65%);
-      animation: drift1 20s ease-in-out infinite;
-    }
-    .hero-video .bloom.b2 {
-      width: 50vw; height: 50vw; right: -8vw; bottom: -12vw;
-      background: radial-gradient(circle, rgba(91,140,255,0.70), rgba(91,140,255,0) 65%);
-      animation: drift2 26s ease-in-out infinite;
-    }
-    .hero-video .bloom.b3 {
-      width: 42vw; height: 42vw; left: 40vw; top: 28vh;
-      background: radial-gradient(circle, rgba(79,209,197,0.55), rgba(79,209,197,0) 65%);
-      animation: drift3 32s ease-in-out infinite;
-    }
-    /* Subtle moving grid for a tech feel */
+    .hero-video .bloom { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.9; will-change: transform; }
+    .hero-video .bloom.b1 { width: 55vw; height: 55vw; left: -6vw; top: -10vw; background: radial-gradient(circle, rgba(255,153,0,0.85), rgba(255,153,0,0) 65%); animation: drift1 20s ease-in-out infinite; }
+    .hero-video .bloom.b2 { width: 50vw; height: 50vw; right: -8vw; bottom: -12vw; background: radial-gradient(circle, rgba(91,140,255,0.70), rgba(91,140,255,0) 65%); animation: drift2 26s ease-in-out infinite; }
+    .hero-video .bloom.b3 { width: 42vw; height: 42vw; left: 40vw; top: 28vh; background: radial-gradient(circle, rgba(79,209,197,0.55), rgba(79,209,197,0) 65%); animation: drift3 32s ease-in-out infinite; }
     .hero-video .grid {
       position: absolute; inset: -2px;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
       background-size: 46px 46px;
       mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 75%);
       -webkit-mask-image: radial-gradient(circle at 50% 40%, #000 0%, transparent 75%);
@@ -90,156 +79,153 @@
     @keyframes drift2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-7vw, -5vh) scale(1.15); } }
     @keyframes drift3 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-6vw, 7vh) scale(1.1); } }
     @keyframes gridpan { 0% { background-position: 0 0, 0 0; } 100% { background-position: 46px 46px, 46px 46px; } }
-    @media (prefers-reduced-motion: reduce) {
-      .hero-video .bloom, .hero-video .grid { animation: none; }
-    }
-    /* Light vignette so text stays readable while the animated blooms show through */
+    @media (prefers-reduced-motion: reduce) { .hero-video .bloom, .hero-video .grid { animation: none; } }
+
     .hero::before {
-      content: "";
-      position: absolute; inset: 0; z-index: 1;
-      background:
-        radial-gradient(120% 90% at 50% 40%, transparent 40%, rgba(11,14,19,0.45) 100%),
-        linear-gradient(180deg, rgba(11,14,19,0.10) 0%, rgba(11,14,19,0.18) 55%, rgba(11,14,19,0.55) 100%);
+      content: ""; position: absolute; inset: 0; z-index: 1;
+      background: radial-gradient(120% 90% at 50% 40%, transparent 40%, rgba(11,14,19,0.45) 100%), linear-gradient(180deg, rgba(11,14,19,0.10) 0%, rgba(11,14,19,0.18) 55%, rgba(11,14,19,0.55) 100%);
       pointer-events: none;
     }
     .hero > * { position: relative; z-index: 2; }
     .hero > .hero-video { z-index: 0; }
 
-    /* top-left brand mark */
-    .brandmark {
-      position: absolute; top: 26px; left: 30px; z-index: 2;
-      font-weight: 800; font-size: 1.3rem; letter-spacing: 0.5px; color: #fff;
-    }
+    .brandmark { position: absolute; top: 20px; left: 30px; z-index: 3; font-weight: 800; font-size: 1.3rem; color: #fff; }
     .brandmark span { color: var(--accent); }
 
-    /* avatar */
     .avatar {
       width: 118px; height: 118px; border-radius: 50%;
-      background: #0b0e13 center/cover no-repeat;
-      background-image: url("https://github.com/nandini1530.png");
-      border: 3px solid var(--accent);
-      box-shadow: 0 0 0 6px rgba(255,153,0,0.15), var(--shadow);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.4rem; font-weight: 800; color: var(--accent);
-      margin-bottom: 26px;
+      background: #0b0e13 center/cover no-repeat; background-image: url("https://github.com/nandini1530.png");
+      border: 3px solid var(--accent); box-shadow: 0 0 0 6px rgba(255,153,0,0.15), var(--shadow); margin-bottom: 26px;
     }
-
-    .hero h1 {
-      font-size: clamp(2.6rem, 6.5vw, 4.6rem);
-      font-weight: 900; line-height: 1.05; letter-spacing: -1px;
-      margin-bottom: 10px;
-    }
+    .hero h1 { font-size: clamp(2.6rem, 6.5vw, 4.6rem); font-weight: 900; line-height: 1.05; letter-spacing: -1px; margin-bottom: 10px; }
     .hero h1 .last { color: var(--accent); }
-
-    .tagline {
-      font-family: "JetBrains Mono", monospace;
-      color: var(--accent-2); font-size: clamp(0.95rem, 2vw, 1.15rem);
-      letter-spacing: 3px; margin-bottom: 16px;
-    }
-    .role {
-      color: var(--muted); font-size: clamp(0.95rem, 2vw, 1.1rem);
-      font-weight: 500; margin-bottom: 30px;
-    }
+    .tagline { font-family: "JetBrains Mono", monospace; color: var(--accent-2); font-size: clamp(0.95rem, 2vw, 1.15rem); letter-spacing: 3px; margin-bottom: 16px; }
+    .role { color: var(--muted); font-size: clamp(0.95rem, 2vw, 1.1rem); font-weight: 500; margin-bottom: 30px; }
     .role b { color: var(--text); font-weight: 600; }
 
-    /* stats pill */
-    .stat-bar {
-      display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center;
-      gap: 0; background: rgba(20,25,34,0.7); border: 1px solid var(--border);
-      border-radius: 14px; padding: 12px 6px; backdrop-filter: blur(8px);
-      box-shadow: var(--shadow); margin-bottom: 30px;
-    }
+    .stat-bar { display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; background: rgba(20,25,34,0.7); border: 1px solid var(--border); border-radius: 14px; padding: 12px 6px; backdrop-filter: blur(8px); box-shadow: var(--shadow); margin-bottom: 30px; }
     .stat-bar .item { padding: 4px 18px; font-size: 0.92rem; color: var(--muted); white-space: nowrap; }
     .stat-bar .item b { color: var(--text); font-weight: 700; }
     .stat-bar .item .g { color: var(--green); font-weight: 600; }
     .stat-bar .divider { width: 1px; align-self: stretch; background: var(--border); }
 
-    /* brand cards */
     .brand-cards { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 24px; }
-    .brand-card {
-      width: 150px; padding: 16px 14px; border-radius: 14px;
-      background: linear-gradient(160deg, rgba(255,153,0,0.14), rgba(20,25,34,0.6));
-      border: 1px solid rgba(255,153,0,0.25);
-      transition: transform 0.18s, border-color 0.2s;
-    }
+    .brand-card { width: 150px; padding: 16px 14px; border-radius: 14px; background: linear-gradient(160deg, rgba(255,153,0,0.14), rgba(20,25,34,0.6)); border: 1px solid rgba(255,153,0,0.25); transition: transform 0.18s, border-color 0.2s; }
     .brand-card:hover { transform: translateY(-4px); border-color: var(--accent); }
     .brand-card .bc-title { font-size: 1.25rem; font-weight: 800; color: #fff; }
     .brand-card .bc-title em { color: var(--accent); font-style: normal; }
     .brand-card .bc-sub { margin-top: 8px; font-size: 0.72rem; letter-spacing: 1.5px; font-weight: 700; color: var(--muted); }
 
     .facts { color: var(--muted); font-size: 0.9rem; margin-bottom: 26px; }
-
-    /* social buttons */
     .socials { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-    .social-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 18px; border-radius: 999px;
-      background: rgba(20,25,34,0.75); border: 1px solid var(--border);
-      font-size: 0.9rem; font-weight: 500; color: var(--text);
-      transition: background 0.2s, border-color 0.2s, transform 0.15s;
-    }
+    .social-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; background: rgba(20,25,34,0.75); border: 1px solid var(--border); font-size: 0.9rem; font-weight: 500; color: var(--text); transition: background 0.2s, border-color 0.2s, transform 0.15s; }
     .social-btn:hover { background: rgba(255,153,0,0.12); border-color: var(--accent); transform: translateY(-2px); }
     .social-btn .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-
     .scroll-hint { margin-top: 42px; color: var(--muted); font-size: 0.85rem; }
     .scroll-hint .arrow { display: block; margin: 0 auto 6px; font-size: 1.1rem; animation: bob 1.6s infinite; }
     @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 
-    /* ============ SECTIONS ============ */
-    section.block { padding: 80px 0; }
-    .section-head { margin-bottom: 40px; }
-    .section-head h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; }
-    .section-head h2 .bar { color: var(--accent); }
-    .section-head p { color: var(--muted); margin-top: 8px; max-width: 620px; }
+    /* ===== SECTIONS ===== */
+    section.block { padding: 84px 0; }
+    section.alt { background: linear-gradient(180deg, rgba(20,25,34,0.35), transparent); }
+    .eyebrow { text-align: center; color: var(--accent); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.8rem; }
+    .sec-title { text-align: center; font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; margin: 8px 0 8px; }
+    .sec-sub { text-align: center; color: var(--muted); margin-bottom: 44px; }
 
-    .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; align-items: start; }
-    .about-grid p { color: var(--muted); margin-bottom: 16px; }
-    .about-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; box-shadow: var(--shadow); }
-    .about-card h3 { font-size: 1rem; margin-bottom: 14px; }
-    .info-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+    /* About */
+    .about-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 34px; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 16px; }
+    .about-text b { color: var(--text); }
+    .info-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
+    .info-card h3 { font-size: 0.95rem; margin-bottom: 12px; color: var(--accent); letter-spacing: 0.5px; }
+    .info-row { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
     .info-row:last-child { border-bottom: 0; }
-    .info-row .k { color: var(--muted); }
+    .info-row .k { color: var(--faint); }
+    .info-row .v { color: var(--text); text-align: right; }
 
-    .timeline { position: relative; padding-left: 28px; }
+    /* Metrics */
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .metric { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: transform 0.18s, border-color 0.2s; box-shadow: var(--shadow); }
+    .metric:hover { transform: translateY(-4px); border-color: rgba(255,153,0,0.4); }
+    .metric .m-label { color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+    .metric .m-num { font-size: 2.4rem; font-weight: 800; margin: 6px 0; background: linear-gradient(135deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .metric .m-note { font-size: 0.85rem; color: var(--green); font-weight: 600; }
+    .metric .m-note.down { color: var(--teal); }
+
+    /* Leadership Principles (flip) */
+    .lp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .lp { position: relative; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); min-height: 230px; display: flex; flex-direction: column; }
+    .lp h4 { font-size: 1.05rem; margin-bottom: 10px; color: var(--accent); }
+    .lp .lp-body { color: var(--muted); font-size: 0.9rem; flex: 1; }
+    .lp .lp-def { display: none; color: var(--muted); font-size: 0.9rem; font-style: italic; flex: 1; }
+    .lp.flipped .lp-body { display: none; }
+    .lp.flipped .lp-def { display: block; }
+    .lp .lp-toggle { margin-top: 14px; align-self: flex-start; background: none; border: 0; color: var(--accent); font-weight: 600; font-size: 0.85rem; cursor: pointer; padding: 0; }
+    .lp .lp-toggle:hover { text-decoration: underline; }
+
+    /* Skills */
+    .skill-groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .skill-groups h3 { font-size: 1rem; margin-bottom: 14px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip { background: var(--bg-soft); border: 1px solid var(--border); padding: 8px 14px; border-radius: 999px; font-size: 0.88rem; }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: 28px; max-width: 820px; margin: 0 auto; }
     .timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--accent), transparent); }
-    .tl-item { position: relative; margin-bottom: 34px; }
+    .tl-item { position: relative; margin-bottom: 32px; }
     .tl-item::before { content: ""; position: absolute; left: -28px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(255,153,0,0.18); }
     .tl-item .role-t { font-weight: 700; font-size: 1.08rem; }
     .tl-item .meta { color: var(--accent-2); font-size: 0.9rem; margin: 2px 0 10px; }
     .tl-item ul { color: var(--muted); padding-left: 18px; }
     .tl-item ul li { margin-bottom: 6px; }
 
-    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; transition: transform 0.18s, border-color 0.2s; box-shadow: var(--shadow); }
+    /* Cards grid (projects / education / awards) */
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .cards.two { grid-template-columns: repeat(2, 1fr); }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; transition: transform 0.18s, border-color 0.2s; box-shadow: var(--shadow); }
     .card:hover { transform: translateY(-4px); border-color: rgba(255,153,0,0.4); }
-    .card .tag { display: inline-block; font-size: 0.75rem; font-weight: 600; color: var(--accent); background: rgba(255,153,0,0.12); padding: 4px 10px; border-radius: 999px; margin-bottom: 14px; }
-    .card h3 { font-size: 1.15rem; margin-bottom: 8px; }
-    .card p { color: var(--muted); font-size: 0.94rem; }
-    .card .result { margin-top: 14px; font-weight: 600; color: var(--text); font-size: 0.9rem; }
+    .card .tag { display: inline-block; font-size: 0.72rem; font-weight: 700; color: var(--accent); background: rgba(255,153,0,0.12); padding: 4px 10px; border-radius: 999px; margin-bottom: 12px; letter-spacing: 0.5px; }
+    .card h3 { font-size: 1.1rem; margin-bottom: 6px; }
+    .card .sub { color: var(--accent-2); font-size: 0.85rem; margin-bottom: 10px; }
+    .card p { color: var(--muted); font-size: 0.92rem; }
+    .card .result { margin-top: 12px; font-weight: 600; color: var(--text); font-size: 0.88rem; }
+    .card .ico { font-size: 1.6rem; margin-bottom: 10px; }
 
-    .skill-groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-    .skill-groups h3 { font-size: 1rem; margin-bottom: 14px; }
-    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
-    .chip { background: var(--bg-soft); border: 1px solid var(--border); padding: 8px 14px; border-radius: 999px; font-size: 0.88rem; }
-
+    /* Contact */
     .contact { text-align: center; background: linear-gradient(135deg, rgba(255,153,0,0.14), rgba(20,25,34,0.5)); border: 1px solid var(--border); border-radius: 24px; padding: 60px 30px; }
     .contact h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; margin-bottom: 12px; }
-    .contact p { color: var(--muted); max-width: 500px; margin: 0 auto 28px; }
-    .btn { padding: 13px 26px; border-radius: 999px; font-weight: 600; font-size: 0.98rem; border: 1px solid transparent; display: inline-block; }
+    .contact p { color: var(--muted); max-width: 520px; margin: 0 auto 28px; }
+    .btn { padding: 13px 26px; border-radius: 999px; font-weight: 700; font-size: 0.98rem; border: 1px solid transparent; display: inline-block; }
     .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #1a1200; }
 
     footer { text-align: center; color: var(--muted); font-size: 0.88rem; padding: 40px 0; border-top: 1px solid var(--border); }
 
     @media (max-width: 860px) {
-      .about-grid, .cards, .skill-groups { grid-template-columns: 1fr; }
+      .about-grid, .metrics, .lp-grid, .skill-groups, .cards, .cards.two { grid-template-columns: 1fr; }
       .stat-bar .divider { display: none; }
-      .stat-bar { gap: 4px 0; }
     }
   </style>
 </head>
 <body>
-  <!-- ============ HERO / FRONT PAGE ============ -->
-  <header class="hero">
+  <!-- ===== NAV ===== -->
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <div class="nav-logo">Nandini<span>.</span></div>
+      <nav class="nav-links">
+        <a href="#about">About</a>
+        <a href="#metrics">Metrics</a>
+        <a href="#principles">Leadership</a>
+        <a href="#skills">Skills</a>
+        <a href="#journey">Journey</a>
+        <a href="#projects">Projects</a>
+        <a href="#awards">Awards</a>
+      </nav>
+      <a href="#contact" class="nav-cta">Contact</a>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
     <div class="hero-video" aria-hidden="true">
       <span class="bloom b1"></span>
       <span class="bloom b2"></span>
@@ -249,7 +235,6 @@
     <div class="brandmark">amazon<span>.</span></div>
 
     <div class="avatar" role="img" aria-label="Nandini Pandey"></div>
-
     <h1>Nandini <span class="last">Pandey</span></h1>
     <div class="tagline">PROGRAM MANAGER</div>
     <div class="role">Program Manager — <b>IN Payments</b> · Amazon · India</div>
@@ -267,18 +252,9 @@
     </div>
 
     <div class="brand-cards">
-      <div class="brand-card">
-        <div class="bc-title">amazon <em>pay</em></div>
-        <div class="bc-sub">DIGITAL PAYMENTS</div>
-      </div>
-      <div class="brand-card">
-        <div class="bc-title">UPI <em>+</em></div>
-        <div class="bc-sub">IN RAILS</div>
-      </div>
-      <div class="brand-card">
-        <div class="bc-title">risk <em>&amp;</em></div>
-        <div class="bc-sub">COMPLIANCE</div>
-      </div>
+      <div class="brand-card"><div class="bc-title">amazon <em>pay</em></div><div class="bc-sub">DIGITAL PAYMENTS</div></div>
+      <div class="brand-card"><div class="bc-title">UPI <em>+</em></div><div class="bc-sub">IN RAILS</div></div>
+      <div class="brand-card"><div class="bc-title">risk <em>&amp;</em></div><div class="bc-sub">COMPLIANCE</div></div>
     </div>
 
     <div class="facts">7+ Years at Amazon · Cross-functional Program Delivery · IN Payments</div>
@@ -290,191 +266,243 @@
       <a class="social-btn" href="https://www.linkedin.com/in/nandiniipandey/" target="_blank" rel="noopener">in LinkedIn</a>
     </div>
 
-    <div class="scroll-hint">
-      <span class="arrow">↓</span>
-      Scroll to explore
+    <div class="scroll-hint"><span class="arrow">↓</span> Scroll to explore</div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="block" id="about">
+    <div class="wrap">
+      <div class="eyebrow">About Me</div>
+      <h2 class="sec-title">Get to know me</h2>
+      <p class="sec-sub">A snapshot of who I am and how I drive programs from idea to impact.</p>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I'm a <b>Program Manager</b> with 7+ years of experience driving complex,
+            cross-functional initiatives end to end. I thrive at the intersection of
+            strategy and execution — setting the roadmap, de-risking delivery, and
+            keeping stakeholders aligned from kickoff to launch.
+          </p>
+          <p>
+            Today I lead <b>India (IN) Payments</b> programs at Amazon, coordinating
+            across product, engineering, operations, risk, and compliance. I turn
+            ambiguous goals into clear plans, measurable milestones, and dependable
+            outcomes for critical payment flows used across the country.
+          </p>
+          <p>
+            I care about clarity, momentum, and doing right by both the customer and
+            the team. I believe great programs are built on trust, tight feedback loops,
+            and relentless follow-through.
+          </p>
+          <p style="color:var(--faint); font-size:0.85rem;">
+            Tip: this section is a sample — edit the text in index.html to make it fully yours.
+          </p>
+        </div>
+        <div class="info-card">
+          <h3>Quick Facts</h3>
+          <div class="info-row"><span class="k">Name</span><span class="v">Nandini Pandey</span></div>
+          <div class="info-row"><span class="k">Role</span><span class="v">Program Manager</span></div>
+          <div class="info-row"><span class="k">Company</span><span class="v">Amazon</span></div>
+          <div class="info-row"><span class="k">Focus</span><span class="v">IN Payments</span></div>
+          <div class="info-row"><span class="k">Experience</span><span class="v">7+ years</span></div>
+          <div class="info-row"><span class="k">Email</span><span class="v">pandeynandini1997@gmail.com</span></div>
+          <div class="info-row"><span class="k">Location</span><span class="v">India</span></div>
+          <div class="info-row"><span class="k">LinkedIn</span><span class="v">/in/nandiniipandey</span></div>
+        </div>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main>
-    <!-- ABOUT -->
-    <section id="about" class="block">
-      <div class="wrap">
-        <div class="section-head">
-          <h2><span class="bar">/</span> About</h2>
-          <p>A snapshot of who I am and how I drive programs from idea to impact.</p>
+  <!-- ===== METRICS ===== -->
+  <section class="block alt" id="metrics">
+    <div class="wrap">
+      <div class="eyebrow">Key Metrics I Own</div>
+      <h2 class="sec-title">Impact at a glance</h2>
+      <p class="sec-sub">Sample metrics — swap in your real numbers in index.html.</p>
+      <div class="metrics">
+        <div class="metric"><div class="m-label">Payment Success Rate</div><div class="m-num">99.9%</div><div class="m-note">↑ above reliability goal</div></div>
+        <div class="metric"><div class="m-label">Programs Delivered</div><div class="m-num">25+</div><div class="m-note">across IN payments</div></div>
+        <div class="metric"><div class="m-label">On-Time Delivery</div><div class="m-num">98%</div><div class="m-note">↑ launch readiness</div></div>
+        <div class="metric"><div class="m-label">Incident Reduction</div><div class="m-num">40%</div><div class="m-note down">↓ operational incidents</div></div>
+        <div class="metric"><div class="m-label">Teams Aligned</div><div class="m-num">20+</div><div class="m-note">cross-functional squads</div></div>
+        <div class="metric"><div class="m-label">Compliance Milestones</div><div class="m-num">100%</div><div class="m-note">met on schedule</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== LEADERSHIP PRINCIPLES ===== -->
+  <section class="block" id="principles">
+    <div class="wrap">
+      <div class="eyebrow">Leadership Principles</div>
+      <h2 class="sec-title">How I lead</h2>
+      <p class="sec-sub">My examples mapped to Amazon's Leadership Principles. Tap "View Definition" to flip.</p>
+      <div class="lp-grid">
+        <div class="lp">
+          <h4>Ownership</h4>
+          <div class="lp-body">Owned end-to-end delivery of critical IN payment flows, taking accountability well beyond my immediate scope and building the automation and governance roadmap to keep them reliable.</div>
+          <div class="lp-def">Leaders are owners. They think long term and don't sacrifice long-term value for short-term results. They act on behalf of the entire company, beyond just their own team.</div>
+          <button class="lp-toggle" type="button">View Definition →</button>
         </div>
-        <div class="about-grid">
-          <div>
-            <p>
-              I'm a Program Manager who thrives at the intersection of strategy and
-              execution. Over the past 7 years I've owned complex, cross-functional
-              programs — setting the roadmap, de-risking delivery, and keeping
-              stakeholders aligned from kickoff to launch.
-            </p>
-            <p>
-              Today I lead payments programs for the India (IN) market at Amazon,
-              coordinating across product, engineering, operations, risk, and
-              compliance. I focus on turning ambiguous goals into clear plans,
-              measurable milestones, and dependable outcomes.
-            </p>
-            <p>
-              I care about clarity, momentum, and doing right by both the customer and
-              the team. I believe great programs are built on trust, tight feedback
-              loops, and relentless follow-through.
-            </p>
+        <div class="lp">
+          <h4>Deliver Results</h4>
+          <div class="lp-body">Delivered multiple payments programs on schedule with high reliability, rising to the occasion despite shifting requirements and tight regulatory timelines.</div>
+          <div class="lp-def">Leaders focus on the key inputs for their business and deliver them with the right quality and in a timely fashion. Despite setbacks, they rise to the occasion and never settle.</div>
+          <button class="lp-toggle" type="button">View Definition →</button>
+        </div>
+        <div class="lp">
+          <h4>Invent and Simplify</h4>
+          <div class="lp-body">Streamlined delivery governance with clearer planning cadences and dashboards, simplifying how multiple squads coordinate on shared payment goals.</div>
+          <div class="lp-def">Leaders expect and require innovation and invention from their teams and always find ways to simplify. They are externally aware and not limited by "not invented here."</div>
+          <button class="lp-toggle" type="button">View Definition →</button>
+        </div>
+        <div class="lp">
+          <h4>Dive Deep</h4>
+          <div class="lp-body">Investigated root causes behind transaction failures and operational incidents, staying connected to the details and auditing metrics to drive measurable improvements.</div>
+          <div class="lp-def">Leaders operate at all levels, stay connected to the details, audit frequently, and are skeptical when metrics and anecdote differ. No task is beneath them.</div>
+          <button class="lp-toggle" type="button">View Definition →</button>
+        </div>
+        <div class="lp">
+          <h4>Earn Trust</h4>
+          <div class="lp-body">Built trust across product, engineering, risk, and compliance through transparent communication, tight feedback loops, and consistent follow-through on commitments.</div>
+          <div class="lp-def">Leaders listen attentively, speak candidly, and treat others respectfully. They are vocally self-critical, benchmark themselves against the best, and are right a lot.</div>
+          <button class="lp-toggle" type="button">View Definition →</button>
+        </div>
+        <div class="lp">
+          <h4>Learn and Be Curious</h4>
+          <div class="lp-body">Continuously explore new tools and payment technologies, leveraging data and automation to improve how programs are planned, tracked, and reported.</div>
+          <div class="lp-def">Leaders are never done learning and always seek to improve themselves. They are curious about new possibilities and act to explore them.</div>
+          <button class="lp-toggle" type="button">View Definition →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SKILLS ===== -->
+  <section class="block alt" id="skills">
+    <div class="wrap">
+      <div class="eyebrow">Skills &amp; Expertise</div>
+      <h2 class="sec-title">What I bring to the table</h2>
+      <p class="sec-sub">Capabilities I bring to every program.</p>
+      <div class="skill-groups">
+        <div>
+          <h3>Program Management</h3>
+          <div class="chips">
+            <span class="chip">Roadmapping</span><span class="chip">Risk Management</span>
+            <span class="chip">Stakeholder Alignment</span><span class="chip">Delivery Governance</span>
+            <span class="chip">OKRs &amp; KPIs</span><span class="chip">Launch Readiness</span>
           </div>
-          <div class="about-card">
-            <h3>Quick facts</h3>
-            <div class="info-row"><span class="k">Name</span><span>Nandini Pandey</span></div>
-            <div class="info-row"><span class="k">Role</span><span>Program Manager</span></div>
-            <div class="info-row"><span class="k">Company</span><span>Amazon</span></div>
-            <div class="info-row"><span class="k">Experience</span><span>7+ years</span></div>
-            <div class="info-row"><span class="k">Focus</span><span>IN Payments</span></div>
+        </div>
+        <div>
+          <h3>Domain</h3>
+          <div class="chips">
+            <span class="chip">Payments</span><span class="chip">Compliance</span>
+            <span class="chip">Risk</span><span class="chip">Operations</span>
+            <span class="chip">Fintech</span><span class="chip">UPI / IN Rails</span>
+          </div>
+        </div>
+        <div>
+          <h3>Tools &amp; Methods</h3>
+          <div class="chips">
+            <span class="chip">Agile / Scrum</span><span class="chip">Jira</span>
+            <span class="chip">Confluence</span><span class="chip">SQL (basic)</span>
+            <span class="chip">Dashboards</span><span class="chip">Asana</span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- EXPERIENCE -->
-    <section id="experience" class="block">
-      <div class="wrap">
-        <div class="section-head">
-          <h2><span class="bar">/</span> Experience</h2>
-          <p>Roles and the outcomes I've driven. Replace with your real history.</p>
+  <!-- ===== JOURNEY / TIMELINE ===== -->
+  <section class="block" id="journey">
+    <div class="wrap">
+      <div class="eyebrow">Career Journey</div>
+      <h2 class="sec-title">Amazon &amp; beyond</h2>
+      <p class="sec-sub">Roles and the outcomes I've driven. Replace with your real history.</p>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="role-t">Program Manager — IN Payments</div>
+          <div class="meta">Amazon · 2022 – Present</div>
+          <ul>
+            <li>Lead the roadmap and delivery for India payments programs across multiple squads.</li>
+            <li>Align product, engineering, operations, risk, and compliance on shared goals and timelines.</li>
+            <li>Drive launch readiness, KPIs, and post-launch reliability for critical payment flows.</li>
+          </ul>
         </div>
-        <div class="timeline">
-          <div class="tl-item">
-            <div class="role-t">Program Manager — IN Payments</div>
-            <div class="meta">Amazon · 2022 – Present</div>
-            <ul>
-              <li>Lead the roadmap and delivery for India payments programs across multiple squads.</li>
-              <li>Align product, engineering, operations, risk, and compliance on shared goals and timelines.</li>
-              <li>Drive launch readiness, KPIs, and post-launch reliability for critical payment flows.</li>
-            </ul>
-          </div>
-          <div class="tl-item">
-            <div class="role-t">Senior Program / Project Manager</div>
-            <div class="meta">Company Name · 2019 – 2022</div>
-            <ul>
-              <li>Managed cross-functional programs from planning through delivery.</li>
-              <li>Built reporting and governance rhythms that improved on-time delivery.</li>
-              <li>Partnered with leadership to prioritize roadmap and manage risk.</li>
-            </ul>
-          </div>
-          <div class="tl-item">
-            <div class="role-t">Project Manager / Program Analyst</div>
-            <div class="meta">Company Name · 2018 – 2019</div>
-            <ul>
-              <li>Coordinated delivery across teams and tracked milestones and dependencies.</li>
-              <li>Established documentation, status reporting, and stakeholder communication.</li>
-            </ul>
-          </div>
+        <div class="tl-item">
+          <div class="role-t">Senior Program / Project Manager</div>
+          <div class="meta">Company Name · 2019 – 2022</div>
+          <ul>
+            <li>Managed cross-functional programs from planning through delivery.</li>
+            <li>Built reporting and governance rhythms that improved on-time delivery.</li>
+            <li>Partnered with leadership to prioritize roadmap and manage risk.</li>
+          </ul>
+        </div>
+        <div class="tl-item">
+          <div class="role-t">Project Manager / Program Analyst</div>
+          <div class="meta">Company Name · 2018 – 2019</div>
+          <ul>
+            <li>Coordinated delivery across teams and tracked milestones and dependencies.</li>
+            <li>Established documentation, status reporting, and stakeholder communication.</li>
+          </ul>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- PROGRAMS -->
-    <section id="programs" class="block">
-      <div class="wrap">
-        <div class="section-head">
-          <h2><span class="bar">/</span> Key Programs</h2>
-          <p>Selected programs and initiatives. Swap in your own highlights and metrics.</p>
-        </div>
-        <div class="cards">
-          <div class="card">
-            <span class="tag">Payments</span>
-            <h3>IN Payments Platform Rollout</h3>
-            <p>Led end-to-end delivery of a new payment method for the India market across product, engineering, and ops.</p>
-            <div class="result">Result: launched on schedule with high reliability</div>
-          </div>
-          <div class="card">
-            <span class="tag">Compliance</span>
-            <h3>Regulatory Readiness Program</h3>
-            <p>Coordinated compliance, legal, and engineering to meet regulatory requirements ahead of deadline.</p>
-            <div class="result">Result: 100% compliance milestones met</div>
-          </div>
-          <div class="card">
-            <span class="tag">Operations</span>
-            <h3>Reliability &amp; Incident Reduction</h3>
-            <p>Drove a cross-team initiative to improve transaction success rates and reduce operational incidents.</p>
-            <div class="result">Result: measurable uptime &amp; success-rate gains</div>
-          </div>
-          <div class="card">
-            <span class="tag">Process</span>
-            <h3>Delivery Governance Framework</h3>
-            <p>Introduced planning cadences, dashboards, and risk reviews adopted across multiple teams.</p>
-            <div class="result">Result: improved on-time delivery</div>
-          </div>
-          <div class="card">
-            <span class="tag">Growth</span>
-            <h3>Merchant Onboarding Program</h3>
-            <p>Streamlined onboarding flows to reduce friction and accelerate merchant activation.</p>
-            <div class="result">Result: faster time-to-activation</div>
-          </div>
-          <div class="card">
-            <span class="tag">Strategy</span>
-            <h3>Annual Roadmap Planning</h3>
-            <p>Facilitated org-wide planning to align priorities, resourcing, and OKRs across stakeholders.</p>
-            <div class="result">Result: clear, aligned annual roadmap</div>
-          </div>
-        </div>
+  <!-- ===== PROJECTS ===== -->
+  <section class="block alt" id="projects">
+    <div class="wrap">
+      <div class="eyebrow">Projects</div>
+      <h2 class="sec-title">Key initiatives &amp; impact</h2>
+      <p class="sec-sub">Selected programs. Swap in your own highlights and metrics.</p>
+      <div class="cards">
+        <div class="card"><span class="tag">Payments</span><h3>IN Payments Platform Rollout</h3><p>Led end-to-end delivery of a new payment method for the India market across product, engineering, and ops.</p><div class="result">Launched on schedule with high reliability</div></div>
+        <div class="card"><span class="tag">Compliance</span><h3>Regulatory Readiness Program</h3><p>Coordinated compliance, legal, and engineering to meet regulatory requirements ahead of deadline.</p><div class="result">100% compliance milestones met</div></div>
+        <div class="card"><span class="tag">Operations</span><h3>Reliability &amp; Incident Reduction</h3><p>Drove a cross-team initiative to improve transaction success rates and reduce operational incidents.</p><div class="result">Measurable uptime &amp; success-rate gains</div></div>
+        <div class="card"><span class="tag">Process</span><h3>Delivery Governance Framework</h3><p>Introduced planning cadences, dashboards, and risk reviews adopted across multiple teams.</p><div class="result">Improved on-time delivery</div></div>
+        <div class="card"><span class="tag">Growth</span><h3>Merchant Onboarding Program</h3><p>Streamlined onboarding flows to reduce friction and accelerate merchant activation.</p><div class="result">Faster time-to-activation</div></div>
+        <div class="card"><span class="tag">Strategy</span><h3>Annual Roadmap Planning</h3><p>Facilitated org-wide planning to align priorities, resourcing, and OKRs across stakeholders.</p><div class="result">Clear, aligned annual roadmap</div></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- SKILLS -->
-    <section id="skills" class="block">
-      <div class="wrap">
-        <div class="section-head">
-          <h2><span class="bar">/</span> Skills</h2>
-          <p>Capabilities I bring to every program.</p>
-        </div>
-        <div class="skill-groups">
-          <div>
-            <h3>Program Management</h3>
-            <div class="chips">
-              <span class="chip">Roadmapping</span>
-              <span class="chip">Risk Management</span>
-              <span class="chip">Stakeholder Alignment</span>
-              <span class="chip">Delivery Governance</span>
-              <span class="chip">OKRs &amp; KPIs</span>
-            </div>
-          </div>
-          <div>
-            <h3>Domain</h3>
-            <div class="chips">
-              <span class="chip">Payments</span>
-              <span class="chip">Compliance</span>
-              <span class="chip">Risk</span>
-              <span class="chip">Operations</span>
-              <span class="chip">Fintech</span>
-            </div>
-          </div>
-          <div>
-            <h3>Tools &amp; Methods</h3>
-            <div class="chips">
-              <span class="chip">Agile / Scrum</span>
-              <span class="chip">Jira</span>
-              <span class="chip">Confluence</span>
-              <span class="chip">SQL (basic)</span>
-              <span class="chip">Dashboards</span>
-            </div>
-          </div>
-        </div>
+  <!-- ===== EDUCATION ===== -->
+  <section class="block" id="education">
+    <div class="wrap">
+      <div class="eyebrow">Education</div>
+      <h2 class="sec-title">Academic background</h2>
+      <p class="sec-sub">Sample entries — update with your real education.</p>
+      <div class="cards two">
+        <div class="card"><div class="ico">🎓</div><h3>MBA / PGDM</h3><div class="sub">Business School · 20XX – 20XX</div><p>Specialization in operations / general management. Update this with your actual degree and institution.</p></div>
+        <div class="card"><div class="ico">🎓</div><h3>Bachelor's Degree</h3><div class="sub">University · 20XX – 20XX</div><p>Undergraduate degree. Update this with your actual field and institution.</p></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- CONTACT -->
-    <section id="contact" class="block">
-      <div class="wrap">
-        <div class="contact">
-          <h2>Let's build something reliable.</h2>
-          <p>Interested in working together or want to learn more about my work? Reach out — I'd love to connect.</p>
-          <a href="mailto:pandeynandini1997@gmail.com" class="btn btn-primary">Email me</a>
-        </div>
+  <!-- ===== AWARDS ===== -->
+  <section class="block alt" id="awards">
+    <div class="wrap">
+      <div class="eyebrow">Awards &amp; Recognition</div>
+      <h2 class="sec-title">Recognition &amp; giving back</h2>
+      <p class="sec-sub">Sample entries — replace with your real awards and volunteering.</p>
+      <div class="cards">
+        <div class="card"><div class="ico">🏆</div><h3>Recognition Award</h3><div class="sub">Amazon · 20XX</div><p>Recognized for outstanding contribution and impact. Update with your real award.</p></div>
+        <div class="card"><div class="ico">⭐</div><h3>Team Excellence</h3><div class="sub">Amazon · 20XX</div><p>Awarded for leadership and delivery. Update with your real recognition.</p></div>
+        <div class="card"><div class="ico">🤝</div><h3>Volunteering Initiative</h3><div class="sub">Amazon Volunteering</div><p>Community program you contributed to. Update with your real volunteering work.</p></div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT ===== -->
+  <section class="block" id="contact">
+    <div class="wrap">
+      <div class="contact">
+        <h2>Let's build something reliable.</h2>
+        <p>Interested in working together or want to learn more about my work? Reach out — I'd love to connect.</p>
+        <a href="mailto:pandeynandini1997@gmail.com" class="btn btn-primary">Email me</a>
+      </div>
+    </div>
+  </section>
 
   <footer>
     <div class="wrap">© <span id="year"></span> Nandini Pandey · Program Manager</div>
@@ -482,6 +510,15 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Leadership Principle flip toggles
+    document.querySelectorAll(".lp-toggle").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var card = btn.closest(".lp");
+        var flipped = card.classList.toggle("flipped");
+        btn.textContent = flipped ? "← Back to My Example" : "View Definition →";
+      });
+    });
   </script>
 </body>
 </html>
