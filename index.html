@@ -54,7 +54,7 @@
       background: linear-gradient(135deg, #1a2230, #0b0e13); /* fallback before video loads */
       pointer-events: none;
     }
-    .hero-video iframe {
+    .hero-video iframe, .hero-video #ytbg {
       position: absolute; top: 50%; left: 50%;
       width: 100vw; height: 56.25vw;      /* 16:9 based on width */
       min-width: 177.78vh; min-height: 100vh; /* 16:9 based on height, so it always covers */
@@ -208,15 +208,7 @@
 <body>
   <!-- ============ HERO / FRONT PAGE ============ -->
   <header class="hero">
-    <div class="hero-video">
-      <iframe
-        src="https://www.youtube.com/embed/0XYBbiDWWLw?autoplay=1&mute=1&controls=0&loop=1&playlist=0XYBbiDWWLw&playsinline=1&rel=0&modestbranding=1&disablekb=1&fs=0&iv_load_policy=3&start=0"
-        title="Background video"
-        allow="autoplay; encrypted-media"
-        allowfullscreen
-        tabindex="-1"
-        aria-hidden="true"></iframe>
-    </div>
+    <div class="hero-video"><div id="ytbg"></div></div>
     <div class="brandmark">amazon<span>.</span></div>
 
     <div class="avatar" role="img" aria-label="Nandini Pandey"></div>
@@ -453,6 +445,31 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // --- Background video via YouTube IFrame Player API (reliable muted autoplay + loop) ---
+    (function () {
+      var VIDEO_ID = "0XYBbiDWWLw";
+      var tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(tag);
+
+      window.onYouTubeIframeAPIReady = function () {
+        new YT.Player("ytbg", {
+          videoId: VIDEO_ID,
+          playerVars: {
+            autoplay: 1, mute: 1, controls: 0, loop: 1, playlist: VIDEO_ID,
+            playsinline: 1, rel: 0, modestbranding: 1, disablekb: 1, fs: 0,
+            iv_load_policy: 3, cc_load_policy: 0
+          },
+          events: {
+            onReady: function (e) { e.target.mute(); e.target.playVideo(); },
+            onStateChange: function (e) {
+              if (e.data === YT.PlayerState.ENDED) { e.target.playVideo(); }
+            }
+          }
+        });
+      };
+    })();
   </script>
 </body>
 </html>
