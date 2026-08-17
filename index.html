@@ -51,7 +51,8 @@
     /* Looping YouTube video background */
     .hero-video {
       position: absolute; inset: 0; z-index: 0; overflow: hidden;
-      background: linear-gradient(135deg, #1a2230, #0b0e13); /* fallback before video loads */
+      /* Fallback: show the video's thumbnail if autoplay is blocked or video hasn't loaded */
+      background: #0b0e13 url("https://i.ytimg.com/vi/0XYBbiDWWLw/maxresdefault.jpg") center/cover no-repeat;
       pointer-events: none;
     }
     .hero-video iframe, .hero-video #ytbg {
