@@ -63,6 +63,11 @@
       background: radial-gradient(1200px 700px at 15% 20%, rgba(255,153,0,0.05), transparent 60%), linear-gradient(135deg, #10151f 0%, #0b0e13 60%, #0b0e13 100%);
       pointer-events: none;
     }
+    .hero-video #heroVideoPlayer, .hero-video iframe {
+      position: absolute; top: 50%; left: 50%;
+      width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.78vh;
+      transform: translate(-50%, -50%); pointer-events: none; border: 0;
+    }
     .hero-video .bloom { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.9; will-change: transform; }
     .hero-video .bloom.b1 { width: 55vw; height: 55vw; left: -6vw; top: -10vw; background: radial-gradient(circle, rgba(255,153,0,0.85), rgba(255,153,0,0) 65%); animation: drift1 20s ease-in-out infinite; }
     .hero-video .bloom.b2 { width: 50vw; height: 50vw; right: -8vw; bottom: -12vw; background: radial-gradient(circle, rgba(91,140,255,0.70), rgba(91,140,255,0) 65%); animation: drift2 26s ease-in-out infinite; }
@@ -235,6 +240,7 @@
       <span class="bloom b2"></span>
       <span class="bloom b3"></span>
       <span class="grid"></span>
+      <div id="heroVideoPlayer"></div>
     </div>
     <div class="brandmark">amazon<span>.</span></div>
 
@@ -515,6 +521,32 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
+    // ===== Hero background video (YouTube) — same setup as the reference site.
+    // NOTE: YouTube is blocked on some corporate networks (e.g. Amazon), where this
+    // will stay blank and the animated orange background shows through as fallback.
+    var heroVideos = ['zYGrrhMpLa0','rOflra1P3d4','rzdWDJ8AHGU','Hr_wV6XVeFI','oCdyg3ehooI','-r7OpmPiFUo','tFBwsb4DSLU','taGNeahEdeo','iV4oGqqfVzY','GJVrNKmrEfA','zDnvDEVTQ8o','lTegvtYLU1A','bCbiKsEfmk0','Gf8Ad13L2bw','bx8Q7KCcO9U','6qkBYVZNu2A','mJfwHcntEjY','LYGDl9x4Zoo','2dww58cyIf8','795P_uKNgOA','jRpK-eRZNYQ','F8J_Rzet_vE'];
+    for (var vShuf = heroVideos.length - 1; vShuf > 0; vShuf--) {
+      var vj = Math.floor(Math.random() * (vShuf + 1));
+      var vt = heroVideos[vShuf]; heroVideos[vShuf] = heroVideos[vj]; heroVideos[vj] = vt;
+    }
+    var vidIdx = 0, ytPlayer = null;
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('heroVideoPlayer', {
+        videoId: heroVideos[vidIdx],
+        playerVars: { autoplay: 1, mute: 1, controls: 0, showinfo: 0, modestbranding: 1, playsinline: 1, rel: 0, disablekb: 1, iv_load_policy: 3, fs: 0 },
+        events: {
+          onStateChange: function (e) {
+            if (e.data === YT.PlayerState.ENDED) {
+              vidIdx = (vidIdx + 1) % heroVideos.length;
+              ytPlayer.loadVideoById(heroVideos[vidIdx]);
+            }
+          }
+        }
+      });
+    }
+    window.onYouTubeIframeAPIReady = onYouTubeIframeAPIReady;
+    if (window.YT && window.YT.Player) onYouTubeIframeAPIReady();
+
     // Typewriter effect for hero tagline (moving orange cursor)
     (function () {
       var el = document.getElementById("tw");
@@ -546,5 +578,6 @@
       });
     });
   </script>
+  <script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>
