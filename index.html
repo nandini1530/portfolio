@@ -63,6 +63,7 @@
       background: radial-gradient(1200px 700px at 15% 20%, rgba(255,153,0,0.05), transparent 60%), linear-gradient(135deg, #10151f 0%, #0b0e13 60%, #0b0e13 100%);
       pointer-events: none;
     }
+    .hero-video #heroCanvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
     .hero-video #heroVideoPlayer, .hero-video iframe {
       position: absolute; top: 50%; left: 50%;
       width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.78vh;
@@ -240,6 +241,7 @@
       <span class="bloom b2"></span>
       <span class="bloom b3"></span>
       <span class="grid"></span>
+      <canvas id="heroCanvas"></canvas>
       <div id="heroVideoPlayer"></div>
     </div>
     <div class="brandmark">amazon<span>.</span></div>
@@ -520,6 +522,69 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // ===== Self-contained cinematic hero background (canvas). No network needed,
+    // so it works on every network including corporate ones that block video.
+    (function () {
+      var canvas = document.getElementById("heroCanvas");
+      if (!canvas) return;
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) return;
+      var ctx = canvas.getContext("2d");
+      var W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      var particles = [], streaks = [];
+
+      function resize() {
+        W = canvas.clientWidth; H = canvas.clientHeight;
+        canvas.width = Math.floor(W * dpr); canvas.height = Math.floor(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        build();
+      }
+      function rnd(a, b) { return a + Math.random() * (b - a); }
+      function build() {
+        var count = Math.round(Math.min(90, (W * H) / 16000));
+        particles = [];
+        for (var i = 0; i < count; i++) {
+          particles.push({
+            x: rnd(0, W), y: rnd(0, H), r: rnd(0.6, 2.6),
+            vy: rnd(-0.25, -0.9), vx: rnd(-0.15, 0.15),
+            a: rnd(0.15, 0.7), tw: rnd(0.005, 0.02), tp: rnd(0, 6.28)
+          });
+        }
+        streaks = [];
+        for (var s = 0; s < 5; s++) {
+          streaks.push({ x: rnd(0, W), y: rnd(0, H), len: rnd(120, 300), sp: rnd(0.2, 0.6), a: rnd(0.04, 0.12) });
+        }
+      }
+      function frame() {
+        ctx.clearRect(0, 0, W, H);
+        // drifting light streaks
+        for (var s = 0; s < streaks.length; s++) {
+          var st = streaks[s];
+          st.x += st.sp; if (st.x - st.len > W) { st.x = -st.len; st.y = rnd(0, H); }
+          var g = ctx.createLinearGradient(st.x - st.len, st.y, st.x, st.y);
+          g.addColorStop(0, "rgba(255,153,0,0)");
+          g.addColorStop(1, "rgba(255,184,77," + st.a + ")");
+          ctx.strokeStyle = g; ctx.lineWidth = 1.4;
+          ctx.beginPath(); ctx.moveTo(st.x - st.len, st.y); ctx.lineTo(st.x, st.y); ctx.stroke();
+        }
+        // floating embers
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          p.y += p.vy; p.x += p.vx; p.tp += p.tw;
+          if (p.y < -10) { p.y = H + 10; p.x = rnd(0, W); }
+          var alpha = p.a * (0.6 + 0.4 * Math.sin(p.tp));
+          ctx.beginPath();
+          ctx.fillStyle = "rgba(255,168,38," + alpha + ")";
+          ctx.shadowColor = "rgba(255,153,0,0.8)"; ctx.shadowBlur = 8;
+          ctx.arc(p.x, p.y, p.r, 0, 6.2832); ctx.fill();
+        }
+        ctx.shadowBlur = 0;
+        requestAnimationFrame(frame);
+      }
+      window.addEventListener("resize", resize);
+      resize(); requestAnimationFrame(frame);
+    })();
 
     // ===== Hero background video (YouTube) — same setup as the reference site.
     // NOTE: YouTube is blocked on some corporate networks (e.g. Amazon), where this
