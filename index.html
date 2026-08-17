@@ -214,6 +214,23 @@
 
     footer { text-align: center; color: var(--muted); font-size: 0.88rem; padding: 40px 0; border-top: 1px solid var(--border); }
 
+    /* Clickable domain cards + modal */
+    .brand-card { cursor: pointer; }
+    .brand-card .bc-hint { display: block; margin-top: 10px; font-size: 0.62rem; letter-spacing: 1px; font-weight: 700; color: var(--accent); opacity: 0; transition: opacity 0.2s; }
+    .brand-card:hover .bc-hint, .brand-card:focus-visible .bc-hint { opacity: 0.95; }
+    .modal-overlay { position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center; background: rgba(5,8,12,0.74); backdrop-filter: blur(6px); padding: 24px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: var(--card); border: 1px solid var(--border); border-radius: 18px; max-width: 540px; width: 100%; padding: 28px 28px 24px; box-shadow: var(--shadow); position: relative; animation: modalIn 0.25s ease; }
+    @keyframes modalIn { from { opacity: 0; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: none; } }
+    .modal .m-eyebrow { color: var(--accent); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; font-size: 0.72rem; margin-bottom: 6px; }
+    .modal h3 { font-size: 1.4rem; margin-bottom: 16px; }
+    .modal ul { list-style: none; padding: 0; margin: 0; }
+    .modal ul li { display: flex; gap: 12px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 0.92rem; }
+    .modal ul li:last-child { border-bottom: 0; }
+    .modal ul li b { color: var(--accent-2); font-weight: 800; white-space: nowrap; min-width: 74px; }
+    .modal .m-close { position: absolute; top: 12px; right: 16px; background: none; border: 0; color: var(--muted); font-size: 1.6rem; cursor: pointer; line-height: 1; }
+    .modal .m-close:hover { color: var(--text); }
+
     @media (max-width: 860px) {
       .about-grid, .metrics, .lp-grid, .skill-groups, .cards, .cards.two { grid-template-columns: 1fr; }
       .stat-bar .divider { display: none; }
@@ -272,9 +289,9 @@
     </div>
 
     <div class="brand-cards">
-      <div class="brand-card"><div class="bc-title">amazon <em>pay</em></div><div class="bc-sub">PAYMENTS PROGRAMS</div></div>
-      <div class="brand-card"><div class="bc-title">business <em>x</em></div><div class="bc-sub">TRANSFORMATION</div></div>
-      <div class="brand-card"><div class="bc-title">AI <em>+</em></div><div class="bc-sub">GENAI WORKFLOWS</div></div>
+      <div class="brand-card" data-domain="payments" role="button" tabindex="0"><div class="bc-title">amazon <em>pay</em></div><div class="bc-sub">PAYMENTS PROGRAMS</div><span class="bc-hint">CLICK TO EXPLORE →</span></div>
+      <div class="brand-card" data-domain="transformation" role="button" tabindex="0"><div class="bc-title">business <em>x</em></div><div class="bc-sub">TRANSFORMATION</div><span class="bc-hint">CLICK TO EXPLORE →</span></div>
+      <div class="brand-card" data-domain="genai" role="button" tabindex="0"><div class="bc-title">AI <em>+</em></div><div class="bc-sub">GENAI WORKFLOWS</div><span class="bc-hint">CLICK TO EXPLORE →</span></div>
     </div>
 
     <div class="facts">7 Years across Amazon &amp; Deloitte · Payments · Business Transformation · AI-Driven Operations</div>
@@ -534,8 +551,93 @@
     <div class="wrap">© <span id="year"></span> Nandini Pandey · Program Manager</div>
   </footer>
 
+  <!-- ===== DOMAIN MODAL ===== -->
+  <div class="modal-overlay" id="domainModal" role="dialog" aria-modal="true" aria-labelledby="domainTitle">
+    <div class="modal">
+      <button class="m-close" id="domainClose" aria-label="Close">&times;</button>
+      <div class="m-eyebrow" id="domainEyebrow"></div>
+      <h3 id="domainTitle"></h3>
+      <ul id="domainList"></ul>
+    </div>
+  </div>
+
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // ===== Clickable domain cards -> popup with data pointers
+    (function () {
+      var DOMAIN_DATA = {
+        payments: {
+          eyebrow: "Payments Programs",
+          title: "Fresh, Now & DSP Payments",
+          points: [
+            ["$15M+", "business value delivered through payments transformation"],
+            ["2M+", "daily payment transactions supported"],
+            ["↑ 25%", "payment success rate via intelligent routing"],
+            ["↓ 75%", "processing turnaround through workflow redesign"],
+            ["↓ 40%", "manual effort via automation & exception management"],
+            ["Frameworks", "reconciliation, KPI reporting & executive dashboards"]
+          ]
+        },
+        transformation: {
+          eyebrow: "Business Transformation",
+          title: "Enterprise Transformation @ Deloitte",
+          points: [
+            ["Multi-BU", "strategic transformation across business units"],
+            ["↑ 25%", "resource utilization via planning & forecasting"],
+            ["Governance", "frameworks & KPI architectures for leadership"],
+            ["Dashboards", "executive reporting & decision support"],
+            ["Cross-fn", "HR, Product, Marketing, Technology & Business"]
+          ]
+        },
+        genai: {
+          eyebrow: "GenAI & Automation",
+          title: "AI-Enabled Workflows",
+          points: [
+            ["↓ 40%", "manual effort through AI-enabled automation"],
+            ["~3 days", "saved every month via capacity planning tool"],
+            ["Real-time", "dashboards & analytics data pipelines"],
+            ["GenAI", "workflows & prompt engineering for reporting"],
+            ["SQL/Python", "AWS (ECS/S3) automation & tooling"]
+          ]
+        }
+      };
+
+      var overlay = document.getElementById("domainModal");
+      var elEyebrow = document.getElementById("domainEyebrow");
+      var elTitle = document.getElementById("domainTitle");
+      var elList = document.getElementById("domainList");
+      var elClose = document.getElementById("domainClose");
+      if (!overlay) return;
+
+      function openDomain(key) {
+        var d = DOMAIN_DATA[key];
+        if (!d) return;
+        elEyebrow.textContent = d.eyebrow;
+        elTitle.textContent = d.title;
+        elList.innerHTML = "";
+        d.points.forEach(function (p) {
+          var li = document.createElement("li");
+          var b = document.createElement("b");
+          b.textContent = p[0];
+          li.appendChild(b);
+          li.appendChild(document.createTextNode(p[1]));
+          elList.appendChild(li);
+        });
+        overlay.classList.add("open");
+      }
+      function closeDomain() { overlay.classList.remove("open"); }
+
+      document.querySelectorAll(".brand-card[data-domain]").forEach(function (card) {
+        card.addEventListener("click", function () { openDomain(card.getAttribute("data-domain")); });
+        card.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDomain(card.getAttribute("data-domain")); }
+        });
+      });
+      elClose.addEventListener("click", closeDomain);
+      overlay.addEventListener("click", function (e) { if (e.target === overlay) closeDomain(); });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeDomain(); });
+    })();
 
     // ===== Self-contained cinematic hero background (canvas). No network needed,
     // so it works on every network including corporate ones that block video.
